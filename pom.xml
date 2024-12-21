@@ -8,10 +8,10 @@
 		<version>3.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.sda.mockapi</groupId>
-	<artifactId>mock-api</artifactId>
+	<groupId>com.sda</groupId>
+	<artifactId>mockapi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mock-api</name>
+	<name>mockapi</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

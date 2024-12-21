@@ -1,10 +1,10 @@
-package com.sda.mockapi.mock_api;
+package com.sda.mockapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MockApiApplicationTests {
+class MockapiApplicationTests {
 
 	@Test
 	void contextLoads() {
