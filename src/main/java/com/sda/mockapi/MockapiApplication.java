@@ -9,5 +9,4 @@ public class MockapiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MockapiApplication.class, args);
 	}
-
 }
