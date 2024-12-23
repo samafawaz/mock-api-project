@@ -7,9 +7,10 @@ public class Event {
     private String location;
     private String date;
     private double  price;
+    private int availableTickets;
 
     // Constructor
-    public Event(int id, String name, String category, String location, String date, double price) {
+    public Event(int id, String name, String category, String location, String date, double price, int availableTickets) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -64,5 +65,13 @@ public class Event {
 
     public void setPrice(double  price) {
         this.price = price;
+    }
+
+    public int getAvailableTickets() {
+        return availableTickets;
+    }
+
+    public void setAvailableTickets(int availableTickets) {
+        this.availableTickets = availableTickets;
     }
 }
