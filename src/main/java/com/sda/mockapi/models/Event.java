@@ -17,6 +17,7 @@ public class Event {
         this.location = location;
         this.date = date;
         this.price = price;
+        this.availableTickets = availableTickets;
     }
 
     public int getId() {
