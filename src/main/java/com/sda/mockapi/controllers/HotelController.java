@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,16 +18,21 @@ import com.sda.mockapi.models.Room;
 @RestController
 @RequestMapping("/hotels")
 public class HotelController {
+    private List<Hotel> hotels = initializeHotels();
 
-    // Simulate getting hotel data with fake data
     @GetMapping("/search")
     public List<Hotel> getHotels() {
+        return hotels;
+    }
+
+    // hotel data 
+    public List<Hotel> initializeHotels() {
 
         Hotel hotel1 = new Hotel(
             1,
             "Ritz-Carlton Nile",
             "Cairo",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE), 3, 2, 0),
+            createRooms(1, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE), 3, 2, 0),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE),
             300.0
         );
@@ -32,7 +41,7 @@ public class HotelController {
             2,
             "Hilton Alexandria Green Plaza",
             "Alexandria",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 2, 3, 2),
+            createRooms(2, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 2, 3, 2),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY),
             150.0
         );
@@ -41,7 +50,7 @@ public class HotelController {
             3,
             "Cairo Pyramids Hotel",
             "Cairo",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.FAMILY), 4, 0, 1),
+            createRooms(3, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.FAMILY), 4, 0, 1),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.FAMILY),
             100.0
         );
@@ -50,7 +59,7 @@ public class HotelController {
             4,
             "Steigenberger Cecil Hotel",
             "Alexandria",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE), 5, 2, 0),
+            createRooms(4, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE), 5, 2, 0),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE),
             120.0
         );
@@ -59,7 +68,7 @@ public class HotelController {
             5,
             "Hurghada Marriott Beach Resort",
             "Hurghada",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 2, 4, 3),
+            createRooms(5, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 2, 4, 3),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY),
             200.0
         );
@@ -68,7 +77,7 @@ public class HotelController {
             6,
             "Jaz Fanara Resort",
             "Sharm El-Sheikh",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 1, 1, 1),
+            createRooms(6, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 1, 1, 1),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY),
             180.0
         );
@@ -77,7 +86,7 @@ public class HotelController {
             7,
             "Winter Palace Luxor",
             "Luxor",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE), 3, 0, 0),
+            createRooms(7, Arrays.asList(Room.RoomType.SINGLE), 3, 0, 0),
             Arrays.asList(Room.RoomType.SINGLE),
             140.0
         );
@@ -86,7 +95,7 @@ public class HotelController {
             8,
             "Sofitel Legend Old Cataract",
             "Aswan",
-            createRooms(Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 2, 3, 1),
+            createRooms(8, Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY), 2, 3, 1),
             Arrays.asList(Room.RoomType.SINGLE, Room.RoomType.DOUBLE, Room.RoomType.FAMILY),
             220.0
         );
@@ -95,23 +104,41 @@ public class HotelController {
         return Arrays.asList(hotel1, hotel2, hotel3, hotel4, hotel5, hotel6, hotel7, hotel8);
     }
 
-    private static List<Room> createRooms(List<Room.RoomType> allowedTypes, int single, int doubleRoom, int family) {
+    private static List<Room> createRooms(int hotelId, List<Room.RoomType> allowedTypes, int single, int doubleRoom, int family) {
         List<Room> rooms = new ArrayList<>();
+        int roomId = 0;
         if (allowedTypes.contains(Room.RoomType.SINGLE)) {
             for (int i = 0; i < single; i++) {
-                rooms.add(new Room(Room.RoomType.SINGLE, false));
+                rooms.add(new Room(hotelId*100 + roomId++, Room.RoomType.SINGLE, false));
             }
         }
         if (allowedTypes.contains(Room.RoomType.DOUBLE)) {
             for (int i = 0; i < doubleRoom; i++) {
-                rooms.add(new Room(Room.RoomType.DOUBLE, false));
+                rooms.add(new Room(hotelId*100 + roomId++, Room.RoomType.DOUBLE, false));
             }
         }
         if (allowedTypes.contains(Room.RoomType.FAMILY)) {
             for (int i = 0; i < family; i++) {
-                rooms.add(new Room(Room.RoomType.FAMILY, false));
+                rooms.add(new Room(hotelId*100 + roomId++, Room.RoomType.FAMILY, false));
             }
         }
         return rooms;
+    }
+
+    @PutMapping("/rooms/{roomId}/reserve")
+    public ResponseEntity<String> reserveRoom(@PathVariable int roomId) {
+        for (Hotel hotel : hotels) {
+            for (Room room : hotel.getRooms()) {
+                if (room.getId() == roomId) {
+                    if (!room.getReserved()) {
+                        room.setReserved(true);
+                        return ResponseEntity.ok("Room reserved successfully.");
+                    } else {
+                        return ResponseEntity.status(HttpStatus.CONFLICT).body("Room is already reserved.");
+                    }
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Room not found.");
     }
 }
